@@ -10,11 +10,11 @@
 
 <textarea></textarea>
 <div class="container">
-<button id="upper-case">Upper Case</button>
-<button id="lower-case">Lower Case</button>
-<button id="proper-case">Proper Case</button>
-<button id="sentence-case">Sentence Case</button>
-<button id="save-text-file">Save Text File</button>
+    <button id="upper-case">Upper Case</button>
+    <button id="lower-case">Lower Case</button>
+    <button id="proper-case">Proper Case</button>
+    <button id="sentence-case">Sentence Case</button>
+    <button id="save-text-file">Save Text File</button>
 </div>
 <script>
     let element = document.querySelector("textarea");  //записали в переменную то что хранится в теге textarea
@@ -60,7 +60,7 @@
             if (boolNeedToUpp) {
                 goodArray.push(textFromUsersEnter[i].toUpperCase());
                 boolNeedToUpp = false;
-            }else {
+            } else {
                 goodArray.push(textFromUsersEnter[i].toLowerCase());
             }
         }
