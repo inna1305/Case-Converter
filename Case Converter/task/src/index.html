@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+<div class="title">Case Converter</div>
+
+<textarea></textarea>
+<div class="container">
+<button id="upper-case">Upper Case</button>
+<button id="lower-case">Lower Case</button>
+<button id="proper-case">Proper Case</button>
+<button id="sentence-case">Sentence Case</button>
+<button id="save-text-file">Save Text File</button>
+</div>
+<script>
+    let element = document.querySelector("textarea");  //записали в переменную то что хранится в теге textarea
+    let buttonUpperCase = document.getElementById("upper-case");
+    buttonUpperCase.addEventListener("click", function () {
+        element.value = element.value.toUpperCase();
+    });
+
+    let buttonLowerCase = document.getElementById("lower-case");
+    buttonLowerCase.addEventListener("click", function () {
+        element.value = element.value.toLowerCase();
+    });
+
+    let buttonProperCase = document.getElementById("proper-case");//получаем элемент по id
+    buttonProperCase.addEventListener("click", function () { //создаем событие по клику мышкой на кнопку
+        let arrayFromUsersEnter = element.value.split(" "); //режем user ввод на массив элементов
+        let properCaseArray = []; //новый массив для обработанных элементов
+        for (let word of arrayFromUsersEnter) { //цикл для каждого элемента массива
+            let firstLetter = word.charAt(0); //берем первую букву элемента массива (инд 0)
+            let firstLetterUpper = firstLetter.replace(firstLetter, firstLetter.toUpperCase());//заменяем первую букву на увеличенную её же
+            //заменить первую букву слова на результат firstLetterUpper
+            properCaseArray.push(firstLetterUpper + word.substr(1)); //добавляем результат в новый массив (склеиваем первую букву с элементом без первой буквы)
+        }
+        element.value = properCaseArray.join(" ");//склеиваем элементы массива в одну строку через пробел
+    });
+
+    let buttonSentenceCase = document.getElementById("sentence-case");
+    buttonSentenceCase.addEventListener("click", function () {
+        let textFromUsersEnter = element.value;
+        let goodArray = [];
+        let lengthText = textFromUsersEnter.length;
+        let boolNeedToUpp = true;
+        for (let i = 0; i < lengthText; i++) {
+            if (textFromUsersEnter[i] === " ") {
+                goodArray.push(textFromUsersEnter[i]);
+                continue;
+            }
+            if (textFromUsersEnter[i] === ".") {
+                boolNeedToUpp = true;
+                goodArray.push(textFromUsersEnter[i]);
+                continue;
+            }
+            if (boolNeedToUpp) {
+                goodArray.push(textFromUsersEnter[i].toUpperCase());
+                boolNeedToUpp = false;
+            }else {
+                goodArray.push(textFromUsersEnter[i].toLowerCase());
+            }
+        }
+        element.value = goodArray.join("");
+    });
+
+
+    function download(filename, text) {
+        let element = document.createElement('a');  //создаем DOM-элемент тег а (ссылка)
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));//добавляем атрибуты тегу + кодируем содержимое
+        element.setAttribute('download', filename);  //добавляем имя файлу (в виде атрибута)
+
+        element.style.display = 'none'; //текст скрыт на странице (не участвует в разметке)
+        document.body.appendChild(element);//добавили текст последним потомком в узел
+
+        element.click(); //имитация клика мышкой
+
+        document.body.removeChild(element); //удаляем элемент
+    }
+
+    let saveTextFile = document.getElementById("save-text-file");
+    saveTextFile.addEventListener("click", function () {
+        let filename = "text.txt";
+        download(filename, element.value);
+    });
+
+</script>
+</body>
+</html>
